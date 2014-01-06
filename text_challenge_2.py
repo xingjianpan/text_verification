@@ -1,31 +1,5 @@
 # -*- coding: utf-8 -*-  
-#TODO
-#PDF can compare with xml
-#html can compare with html
-#
 
- 
- 
-def splitParagraphIntoSentences(paragraph):
-    ''' break a paragraph into sentences
-        and return a list 
-        
-        after break, there should be no ,.!? sign 
-        in each sentence.
-        
-        note: this basically also means ,.!? are excluded
-        from comparasion effectively. If the solution 
-        request strict comparasion of text including 
-        these signs, this program will not work
-        '''
-    import re
-    # to split by multile characters
-
-    #   regular expressions are easiest (and fastest)
-    sentenceEnders = re.compile('[,.!?]') #add comma
-    sentenceList = sentenceEnders.split(paragraph)
-    return '\n'.join(sentenceList)
-    
         
 def convert_pdf_to_string(pdf_file):
     """
@@ -102,6 +76,28 @@ def join_list_together(list):
     list = [line for line in mystr.split('\n') if line.strip() != ''] 
 
 
+ 
+def splitParagraphIntoSentences(paragraph):
+    ''' break a paragraph into sentences
+        and return a list 
+        
+        after break, there should be no ,.!? sign 
+        in each sentence.
+        
+        note: this basically also means ,.!? are excluded
+        from comparasion effectively. If the solution 
+        request strict comparasion of text including 
+        these signs, this program will not work
+        '''
+    import re
+    # to split by multile characters
+
+    #   regular expressions are easiest (and fastest)
+    sentenceEnders = re.compile('[,.!?]') #add comma
+    sentenceList = sentenceEnders.split(paragraph)
+    return '\n'.join(sentenceList)
+    
+    
 def remove_extra_blank_lines(text):
     list = [line for line in text.split('\n') if line.strip() != ''] 
     return '\n'.join(list)
@@ -135,54 +131,21 @@ def write_string_to_file(string, filename):
             #     print 'cannot write to file. program will exit'
 
 
-#to delete
-    
-    
-def format_string(string):
-    """
-    input:string
-    output:string
-    width - 40
-    compress spaces in string
-    """   
-    #import textwrap
-    #break string into sentences,output is list
-    #sentences = find_sentense(string)
-    tmp  = string.replace("\r","\n").replace("\r\n","\n").replace("\r\t"," ").replace("\t"," ").strip()
-    tmp2 = ''.join(tmp.split('\n'))
-    sentences = splitParagraphIntoSentences(tmp2)
-    clean_sentences = [cleaner(sentense) for sentense in sentences]
-    #join the list back into a string
-    #new_string = ' '.join(string.split())    
-    #wrapped_new_string_in_list=textwrap.wrap(new_string,width=100)
-    #wrapped_new_string = '\n'.join(wrapped_new_string_in_list)
-    res = '\n'.join(clean_sentences)
-    res2 = comprese_tab(res)
-    #return wrapped_new_string
-    return res2
-
-def comprese_tab(string):
-    temp = string.split('\t')
-    res = ''.join(temp)
-    return res     
-
-def cleaner(sentense):
-    cleaned_sentense = sentense.replace("\r","\n").replace("\r\n","\n").replace("\r\t"," ").replace("\t"," ").strip()
-    return cleaned_sentense
-
-       
-      
-      
-
-
- 
-def remove_html_comment(string):
-    import re
-    output = re.sub(r"<!--(.*?)-->", r'', string)
-    #pattern=re.complie(r"<!--(.*?)-->")
-    #pattern.sub('', string)
-    return output
-    
+marks = []
+def cutit():
+    keep_asking_user_for_marks = True
+    while keep_asking_user_for_marks:
+        start = raw_input('please input the first character: ')
+        end = raw_input('please input the last charater: ')
+        marks.append((start,end))
+        add_more_marks = raw_input('Do you want to add more marks? Y - continue, N - exit')
+        if add_more_marks == 'Y':
+            continue
+        elif add_more_marks == 'N':
+            break
+        else:
+            cutit()
+    return marks
         
 pdf_s=re_format_text(convert_pdf_to_string('S7-Source.pdf'))
 html_s=re_format_text(convert_html_to_string('S6-Source.html'))    
