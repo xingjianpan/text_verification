@@ -123,34 +123,34 @@ def write_string_to_file(string, filename):
             f.write(string)
             print 'Done'
         except:
-            print 'cannot write to file, trying encoding without using utf8'
-            # try:
-            #     f.write(string)
-            #     print 'Done'
-            # except:
-            #     print 'cannot write to file. program will exit'
+            print 'cannot write to file'
 
 
-marks = []
-def cutit():
-    keep_asking_user_for_marks = True
-    while keep_asking_user_for_marks:
-        start = raw_input('please input the first character: ')
-        end = raw_input('please input the last charater: ')
-        marks.append((start,end))
-        add_more_marks = raw_input('Do you want to add more marks? Y - continue, N - exit')
-        if add_more_marks == 'Y':
-            continue
-        elif add_more_marks == 'N':
-            break
+def cut_it(text, mark):
+    pos = text.find(mark)
+    if pos>0:
+        text = text[pos:]
+    else:
+        text = text
+    return text
+    
+
+
+def find_between(s, first, last=None):
+    try:        
+        start = s.index(first)   
+        if last is None:
+            end = len(s) 
         else:
-            cutit()
-    return marks
+            end = s.index(last,start)
+        return s[start:end]    
+    except ValueError:        
+        return""
         
 pdf_s=re_format_text(convert_pdf_to_string('S7-Source.pdf'))
-html_s=re_format_text(convert_html_to_string('S6-Source.html'))    
-html_t=re_format_text(convert_html_to_string('S6-Target.html'))
-xml_t=re_format_text(convert_xml_to_string('S6-Target.xml'))
+html_s=re_format_text(convert_html_to_string('S4-Source.html'))    
+html_t=re_format_text(convert_html_to_string('S4-Target.html'))
+xml_t=re_format_text(convert_xml_to_string('S4-Target.xml'))
 write_string_to_file(pdf_s,'pdf_s.txt')
 write_string_to_file(html_s,'html_s.txt')
 write_string_to_file(html_t,'html_t.txt')
@@ -160,3 +160,13 @@ python diff.py pdf_s.txt html_t.txt -m > res_pdf_html_1.html
 python diff.py pdf_s.txt xml_t.txt -m > res_pdf_xml_2.html
 python diff.py html_s.txt xml_t.txt -m > res_html_xml_3.html
 python diff.py html_s.txt html_t.txt -m > res_html_html_4.html
+
+
+pdf_s=re_format_text(cut_it(convert_pdf_to_string('S6-Source.pdf'),'*584'))
+html_s=re_format_text(cut_it(convert_html_to_string('S6-Source.html'),'*584'))    
+html_t=re_format_text(cut_it(convert_html_to_string('S6-Target.html'),'*584'))
+xml_t=re_format_text(cut_it(convert_xml_to_string('S6-Target.xml'),'*584'))
+write_string_to_file(pdf_s,'pdf_s.txt')
+write_string_to_file(html_s,'html_s.txt')
+write_string_to_file(html_t,'html_t.txt')
+write_string_to_file(xml_t,'xml_t.txt')
