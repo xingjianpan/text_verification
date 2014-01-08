@@ -1,5 +1,14 @@
 # -*- coding: utf-8 -*-  
+#TODO - enable program to read form a from to get the start and end points for comparision.
+  
 
+        
+
+def convert_txt_to_string(txt_file):
+    import codecs
+    with codecs.open(txt_file, 'U',"utf-8") as f: 
+        content = f.readlines()
+        return ''.join(content)
         
 def convert_pdf_to_string(pdf_file):
     """
@@ -68,14 +77,14 @@ def replace_tabs_with_space(text):
     return tmp
     
 def remove_extra_space_within_sentence(text):
-    tmp  = ''.join(text.split())
+    tmp  = ' '.join(text.split())
     return tmp
 
 
-def join_list_together(list):
-    list = [line for line in mystr.split('\n') if line.strip() != ''] 
-
-
+def remove_all_space_within_sentence(text):
+    tmp  = ''.join(text.split())
+    return tmp
+    
  
 def splitParagraphIntoSentences(paragraph):
     ''' break a paragraph into sentences
@@ -105,7 +114,7 @@ def remove_extra_blank_lines(text):
 def re_format_text(text):
     s1 = replace_line_breaks_with_space(text)
     s2 = replace_tabs_with_space(s1)
-    s3 = remove_extra_space_within_sentence(s2)
+    s3 = remove_all_space_within_sentence(s2)
     s4 = splitParagraphIntoSentences(s3)
     s5 = remove_extra_blank_lines(s4)
     return s5
@@ -142,31 +151,42 @@ def find_between(s, first, last=None):
         if last is None:
             end = len(s) 
         else:
-            end = s.index(last,start)
+            end = s.index(last,start) + len(last)
         return s[start:end]    
     except ValueError:        
         return""
-        
-pdf_s=re_format_text(convert_pdf_to_string('S7-Source.pdf'))
-html_s=re_format_text(convert_html_to_string('S4-Source.html'))    
-html_t=re_format_text(convert_html_to_string('S4-Target.html'))
-xml_t=re_format_text(convert_xml_to_string('S4-Target.xml'))
+  
+
+    
+"""            
+txt_s = re_format_text(convert_txt_to_string('background.txt'))
+txt_t = re_format_text(convert_txt_to_string('background2.txt'))
+pdf_s=re_format_text(convert_pdf_to_string('background.pdf'))
+html_s=re_format_text(convert_html_to_string('S1-Source.html'))    
+html_t=re_format_text(convert_html_to_string('S1-Target.html'))
+xml_t=re_format_text(convert_xml_to_string('S1-Target.xml'))
+write_string_to_file(txt_s,'txt_s.txt')
+write_string_to_file(txt_t,'txt_t.txt')
 write_string_to_file(pdf_s,'pdf_s.txt')
 write_string_to_file(html_s,'html_s.txt')
 write_string_to_file(html_t,'html_t.txt')
 write_string_to_file(xml_t,'xml_t.txt')
 
+
+python diff.py txt_s.txt txt_t.txt -m > res_txt_txt_6.html
+python diff.py txt_s.txt pdf_s.txt -m > res_txt_pdf_5.html
 python diff.py pdf_s.txt html_t.txt -m > res_pdf_html_1.html
 python diff.py pdf_s.txt xml_t.txt -m > res_pdf_xml_2.html
 python diff.py html_s.txt xml_t.txt -m > res_html_xml_3.html
 python diff.py html_s.txt html_t.txt -m > res_html_html_4.html
 
 
-pdf_s=re_format_text(cut_it(convert_pdf_to_string('S6-Source.pdf'),'*584'))
-html_s=re_format_text(cut_it(convert_html_to_string('S6-Source.html'),'*584'))    
-html_t=re_format_text(cut_it(convert_html_to_string('S6-Target.html'),'*584'))
-xml_t=re_format_text(cut_it(convert_xml_to_string('S6-Target.xml'),'*584'))
+pdf_s=find_between(re_format_text(convert_pdf_to_string('S6-Source.pdf')),'DECREE')
+html_s=find_between(re_format_text(convert_html_to_string('S6-Source.html')),'DECREE')   
+html_t=find_between(re_format_text(convert_html_to_string('S6-Target.html')),'DECREE')
+xml_t=find_between(re_format_text(convert_xml_to_string('S6-Target.xml')),'DECREE')
 write_string_to_file(pdf_s,'pdf_s.txt')
 write_string_to_file(html_s,'html_s.txt')
 write_string_to_file(html_t,'html_t.txt')
 write_string_to_file(xml_t,'xml_t.txt')
+"""
