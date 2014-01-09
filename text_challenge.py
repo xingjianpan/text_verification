@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 #TODO - enable program to read form a from to get the start and end points for comparision.
-
-
+#TODO - enable support for doc, docx, and RTF. These are not well suppporte by python. but can
+#be added through third-party library
+#FIXME: when reading pdf, it reads vertically, when reading html, it reads horitionally.
+#this is causing a lot of trouble when there are tables in pdf/html
+#i think the probelm is within pdfminer, it break the order. need to fix it.
 
 #TODO test
 def convert_txt_to_string(txt_file):
@@ -28,22 +31,19 @@ def convert_pdf_to_string(pdf_file):
         return unicode_out
     except:
         return out
-
+        
 def convert_xml_to_string(xml_file):
     """
     input:xml file
-    output: string
+    output:string
     """
     from lxml import etree
     tree = etree.parse(xml_file)
     root = tree.getroot()
-    text_list = []
-    for element in root.iter():
-        if element.text is not None:
-            if (element.tag[-1] in ['t','p'] or element.tag[-4:] in ['span']) : #'t' and 'span' contains real text
-                text_list.append(element.text)
-    res = ''.join(text_list)
+    content = root.xpath('//text()')
+    res = ''.join(content)
     return res
+    
 
 def convert_html_to_string(html_file):
     """

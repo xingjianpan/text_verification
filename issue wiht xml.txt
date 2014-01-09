@@ -1,0 +1,14 @@
+<text:p text:style-name="P11">
+Finally, for the 1999
+<text:span text:style-name="T9">tax</text:span>
+bill and beyond, I will accept Lindon’s proffered values as good faith estimates of its
+<text:span text:style-name="T9">tax</text:span>
+obligations and order the Governent to treat these values as the assessed values of the Frostco Building until the Special Master has certified the Territory’s assessment system to be capable of assessing properties at their actual value. As Lindon has already paid its 1999 and 2000
+<text:span text:style-name="T9">tax</text:span>
+bills at the Government’s assigned values, it is entitled to a credit of $42,654.91 plus interest at the statutory rate of 12 percent from the date each
+<text:span text:style-name="T9">tax</text:span>
+bill was paid. The Government may not apply this credit to any future property
+<text:span text:style-name="T9">tax</text:span>
+obligation without Lindon’s consent. The Government may, however, chose to refund this credit and interest to Lindon.
+</text:p>
+<text:p text:style-name="P11"></text:p>
