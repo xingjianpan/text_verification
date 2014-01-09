@@ -183,12 +183,19 @@ def generate_file_for_comparision(file):
         print 'not a file'
 
 
+def generate_comparasion_report(file1, file2):
+    import subprocess
+    #s=subprocess.Popen(['pdf2txt.py', pdf_file],stdout=subprocess.PIPE)
+    #out, err = s.communicate()
+    subprocess.Popen(['python','diff.py',file1, file2, '-m' ,'>','res.html'])
+
+#TODO TEST
 def perform_comparision(file1, file2):
     file1 = generate_file_for_comparision(file1)
     file2 = generate_file_for_comparision(file2)
     print file1
     print file2
-
+    generate_comparasion_report(file1, file2)
 if __name__ == '__main__':
     import sys, os
     for each in sys.argv:
