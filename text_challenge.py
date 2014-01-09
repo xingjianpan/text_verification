@@ -144,54 +144,65 @@ def find_between(s, first, last=None):
 
 #TODO test
 def judge_file_format(file):
-    if file.lower().endswith('.txt'):
+    import os
+    file_name = os.path.basename(file)
+    if file_name.lower().endswith('.txt'):
         return 'txt'
-    elif file.lower().endswith('.pdf'):
+    elif file_name.lower().endswith('.pdf'):
         return 'pdf'
-    elif file.lower().endswith('.xml'):
+    elif file_name.lower().endswith('.xml'):
         return 'xml'
-    elif file.lower().endswith('.html'):
+    elif file_name.lower().endswith('.html'):
         return 'html'
     else:
         return 'unsupported'
 
 def generate_file_for_comparision(file):
-    file_format =   judge_file_format(file)
-    if file_format == '.txt':
-        content = re_format_text(convert_txt_to_string('file'))
+    file_format = judge_file_format(file)
+    print file_format
+    if file_format == 'txt':
+        content = re_format_text(convert_txt_to_string(file))
         write_string_to_file(content ,'COMPARE_txt_file.txt')
-    elif file_format == '.pdf':
-        content = re_format_text(convert_pdf_to_string('file'))
+        return 'COMPARE_html_file.txt'
+    elif file_format == 'pdf':
+        content = re_format_text(convert_pdf_to_string(file))
         write_string_to_file(content,'COMPARE_pdf_file.txt')
-    elif file_format == '.xml':
-        content = re_format_text(convert_xml_to_string('file'))
+        return 'COMPARE_PDF_file.txt'
+    elif file_format == 'xml':
+        content = re_format_text(convert_xml_to_string(file))
         write_string_to_file(content,'COMPARE_xml_file.txt')
-    elif file_format == '.html':
-        content = re_format_text(convert_html_to_string('file'))
+        return 'COMPARE_xml_file.txt'
+    elif file_format == 'html':
+        content = re_format_text(convert_html_to_string(file))
         write_string_to_file(content,'COMPARE_html_file.txt')
+        return 'COMPARE_html_file.txt'
     elif file_format == 'unsupported':
         print 'unsupported file format'
         raise
+    else:
+        print 'not a file'
 
 
 def perform_comparision(file1, file2):
-    generate_file_for_comparision(file1)
-    generate_file_for_comparision(file2)
-
+    file1 = generate_file_for_comparision(file1)
+    file2 = generate_file_for_comparision(file2)
+    print file1
+    print file2
 
 if __name__ == '__main__':
-    import sys
-    if len(sys.argv) <> 3:
-        print 'Need two files for comparision.'
-        sys.exit()
-    else:
-        generate_file_for_comparision(sys.argv[2])
-        generate_file_for_comparision(sys.argv[3])
-
-
-
-
-
+    import sys, os
+    for each in sys.argv:
+        print each
+    #if len(sys.argv) <> 3:
+    #    print 'Need two files for comparision.'
+    #    sys.exit()
+    #else:
+    #    perform_comparision(sys.argv[1],sys.argv[2])
+    file1 = os.path.abspath(sys.argv[1])
+    file2 = os.path.abspath(sys.argv[2])
+    print file1
+    print file2
+    perform_comparision(file1, file2)
 
 
 

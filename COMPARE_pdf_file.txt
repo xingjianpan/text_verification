@@ -1,0 +1,14 @@
+U
+S
+PatentNo
+7
+010
+508(“the’508Patent”;Ex
+1007)issuedMarch7
+2006andisassignedtoLandmarkTechnologiesLLC(“Landmark”)
+Eachofclaims1-17ofthe’508Patentisunpatentablefortwoindependentreasons
+First
+thespecificationofthe’508Patentfailstodiscloseastructureformanyofthemeans-plus-functionelementsintheclaims
+Second
+everyelementofeachofthoseclaimswasknowninthepriorart
+includingtheuseofso-called“forwardchaining”–theallegedinventivefeatureofthe’508Patent
