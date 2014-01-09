@@ -183,20 +183,26 @@ def generate_file_for_comparision(file):
         print 'not a file'
 
 
-def generate_comparasion_report(file1, file2):
-    import subprocess
-    #s=subprocess.Popen(['pdf2txt.py', pdf_file],stdout=subprocess.PIPE)
-    #out, err = s.communicate()
-    ['/bin/vikings', '-input', 'eggs.txt', '-output', 'spam spam.txt', '-cmd', "echo '$MONEY'"]
-    subprocess.call(['python','diff.py',file1, file2, '-m' ,'>','res.html'])
+def generate_comparasion_report(fromfile, tofile):
+    import difflib
+    import time
+    lines = 5
+
+    #fromdate = time.ctime(os.stat(fromfile).st_mtime)
+    #todate = time.ctime(os.stat(tofile).st_mtime)
+    fromlines = open(fromfile, 'U').readlines()
+    tolines = open(tofile, 'U').readlines()
+    diff = difflib.HtmlDiff().make_file(fromlines, tolines, fromfile,
+                                        tofile, numlines = lines)
+    sys.stdout.writelines(diff)
+
 
 #TODO TEST
 def perform_comparision(file1, file2):
     file1 = generate_file_for_comparision(file1)
     file2 = generate_file_for_comparision(file2)
-    print file1
-    print file2
     generate_comparasion_report(file1, file2)
+
 if __name__ == '__main__':
     import sys, os
     for each in sys.argv:
@@ -208,8 +214,6 @@ if __name__ == '__main__':
     #    perform_comparision(sys.argv[1],sys.argv[2])
     file1 = os.path.abspath(sys.argv[1])
     file2 = os.path.abspath(sys.argv[2])
-    print file1
-    print file2
     perform_comparision(file1, file2)
 
 
