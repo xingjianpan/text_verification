@@ -1,15 +1,15 @@
-# -*- coding: utf-8 -*-  
+# -*- coding: utf-8 -*-
 #TODO - enable program to read form a from to get the start and end points for comparision.
-  
 
-        
+
+
 #TODO test
 def convert_txt_to_string(txt_file):
     import codecs
-    with codecs.open(txt_file, 'U',"utf-8") as f: 
+    with codecs.open(txt_file, 'U',"utf-8") as f:
         content = f.readlines()
-        return ''.join(content)   
-        
+        return ''.join(content)
+
 def convert_pdf_to_string(pdf_file):
     """
     input:pdf file
@@ -27,7 +27,7 @@ def convert_pdf_to_string(pdf_file):
         unicode_out = out.decode('utf8')
         return unicode_out
     except:
-        return out    
+        return out
 
 def convert_xml_to_string(xml_file):
     """
@@ -36,7 +36,7 @@ def convert_xml_to_string(xml_file):
     """
     from lxml import etree
     tree = etree.parse(xml_file)
-    root = tree.getroot() 
+    root = tree.getroot()
     text_list = []
     for element in root.iter():
         if element.text is not None:
@@ -44,7 +44,7 @@ def convert_xml_to_string(xml_file):
                 text_list.append(element.text)
     res = ''.join(text_list)
     return res
-        
+
 def convert_html_to_string(html_file):
     """
     input:html file
@@ -64,11 +64,11 @@ def convert_html_to_string(html_file):
 def replace_line_breaks_with_space(text):
     tmp  = text.replace("\n"," ").replace("\r"," ").replace("\r\n"," ")
     return tmp
-    
+
 def replace_tabs_with_space(text):
     tmp  = text.replace("\r\t"," ").replace("\t"," ")
     return tmp
-    
+
 def remove_extra_space_within_sentence(text):
     tmp  = ' '.join(text.split())
     return tmp
@@ -76,17 +76,17 @@ def remove_extra_space_within_sentence(text):
 def remove_all_space_within_sentence(text):
     tmp  = ''.join(text.split())
     return tmp
-    
+
 def splitParagraphIntoSentences(paragraph):
     ''' break a paragraph into sentences
-        and return a list 
-        
-        after break, there should be no ,.!? sign 
+        and return a list
+
+        after break, there should be no ,.!? sign
         in each sentence.
-        
+
         note: this basically also means ,.!? are excluded
-        from comparasion effectively. If the solution 
-        request strict comparasion of text including 
+        from comparasion effectively. If the solution
+        request strict comparasion of text including
         these signs, this program will not work
         '''
     import re
@@ -96,11 +96,11 @@ def splitParagraphIntoSentences(paragraph):
     sentenceEnders = re.compile('[,.!?]') #add comma
     sentenceList = sentenceEnders.split(paragraph)
     return '\n'.join(sentenceList)
-     
+
 def remove_extra_blank_lines(text):
-    list = [line for line in text.split('\n') if line.strip() != ''] 
+    list = [line for line in text.split('\n') if line.strip() != '']
     return '\n'.join(list)
-    
+
 def re_format_text(text):
     s1 = replace_line_breaks_with_space(text)
     s2 = replace_tabs_with_space(s1)
@@ -115,14 +115,14 @@ def write_string_to_file(string, filename):
         raise 'no string provided'
     if not filename:
         raise 'please input filename'
-    with codecs.open(filename, 'w',"utf-8") as f:        
+    with codecs.open(filename, 'w',"utf-8") as f:
         try:
             #f.write(string.encode('utf8'))
             f.write(string)
             print 'Done'
         except:
             print 'cannot write to file'
-            
+
 def cut_it(text, mark):
     pos = text.find(mark)
     if pos>0:
@@ -130,16 +130,16 @@ def cut_it(text, mark):
     else:
         text = text
     return text
-    
+
 def find_between(s, first, last=None):
-    try:        
-        start = s.index(first)   
+    try:
+        start = s.index(first)
         if last is None:
-            end = len(s) 
+            end = len(s)
         else:
             end = s.index(last,start) + len(last)
-        return s[start:end]    
-    except ValueError:        
+        return s[start:end]
+    except ValueError:
         return""
 
 #TODO test
@@ -159,41 +159,52 @@ def generate_file_for_comparision(file):
     file_format =   judge_file_format(file)
     if file_format == '.txt':
         content = re_format_text(convert_txt_to_string('file'))
-        write_string_to_file(contet,'COMPARE_txt_file.txt')
+        write_string_to_file(content ,'COMPARE_txt_file.txt')
     elif file_format == '.pdf':
         content = re_format_text(convert_pdf_to_string('file'))
-        write_string_to_file(contet,'COMPARE_pdf_file.txt')
+        write_string_to_file(content,'COMPARE_pdf_file.txt')
     elif file_format == '.xml':
         content = re_format_text(convert_xml_to_string('file'))
-        write_string_to_file(contet,'COMPARE_xml_file.txt')
-    else file_format == '.html':
+        write_string_to_file(content,'COMPARE_xml_file.txt')
+    elif file_format == '.html':
         content = re_format_text(convert_html_to_string('file'))
-        write_string_to_file(contet,'COMPARE_html_file.txt') 
+        write_string_to_file(content,'COMPARE_html_file.txt')
+    elif file_format == 'unsupported':
+        print 'unsupported file format'
+        raise
+
 
 def perform_comparision(file1, file2):
     generate_file_for_comparision(file1)
-    generate_file_for_comparision(file2)     
-    
- 
+    generate_file_for_comparision(file2)
+
+
 if __name__ == '__main__':
-    pass ##need to take arguments of two file
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-""" 
+    import sys
+    if len(sys.argv) <> 3:
+        print 'Need two files for comparision.'
+        sys.exit()
+    else:
+        generate_file_for_comparision(sys.argv[2])
+        generate_file_for_comparision(sys.argv[3])
+
+
+
+
+
+
+
+
+
+
+
+"""
 for manual comparasion and check
-           
+
 txt_s = re_format_text(convert_txt_to_string('background.txt'))
 txt_t = re_format_text(convert_txt_to_string('background2.txt'))
 pdf_s=re_format_text(convert_pdf_to_string('background.pdf'))
-html_s=re_format_text(convert_html_to_string('S1-Source.html'))    
+html_s=re_format_text(convert_html_to_string('S1-Source.html'))
 html_t=re_format_text(convert_html_to_string('S1-Target.html'))
 xml_t=re_format_text(convert_xml_to_string('S1-Target.xml'))
 write_string_to_file(txt_s,'txt_s.txt')
@@ -213,7 +224,7 @@ python diff.py html_s.txt html_t.txt -m > res_html_html_4.html
 
 
 pdf_s=find_between(re_format_text(convert_pdf_to_string('S6-Source.pdf')),'DECREE')
-html_s=find_between(re_format_text(convert_html_to_string('S6-Source.html')),'DECREE')   
+html_s=find_between(re_format_text(convert_html_to_string('S6-Source.html')),'DECREE')
 html_t=find_between(re_format_text(convert_html_to_string('S6-Target.html')),'DECREE')
 xml_t=find_between(re_format_text(convert_xml_to_string('S6-Target.xml')),'DECREE')
 write_string_to_file(pdf_s,'pdf_s.txt')
