@@ -187,7 +187,8 @@ def generate_comparasion_report(file1, file2):
     import subprocess
     #s=subprocess.Popen(['pdf2txt.py', pdf_file],stdout=subprocess.PIPE)
     #out, err = s.communicate()
-    subprocess.Popen(['python','diff.py',file1, file2, '-m' ,'>','res.html'])
+    ['/bin/vikings', '-input', 'eggs.txt', '-output', 'spam spam.txt', '-cmd', "echo '$MONEY'"]
+    subprocess.call(['python','diff.py',file1, file2, '-m' ,'>','res.html'])
 
 #TODO TEST
 def perform_comparision(file1, file2):
