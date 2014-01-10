@@ -145,9 +145,14 @@ def read_start_end_points(file):
     return start_end_list
 
 
+def re_structure_text(file, config_file):
+    content = generate_file_content(file)
+    start_end_list = read_start_end_points(config_file)
+    new_content = []
+    for i in range(len(start_end_list)):
+        new_content.append(find_between(content, start_end_list[i][0], start_end_list[i][1]))
+    return ''.join(new_content)
     
-
-
     
 def re_format_text(text):
     s1 = replace_line_breaks_with_space(text)
@@ -186,6 +191,27 @@ def judge_file_format(file):
     else:
         return 'unsupported'
 
+
+def generate_file_content(file):
+    file_format = judge_file_format(file)
+    #print file_format
+    if file_format == 'txt':
+        content = re_format_text(convert_txt_to_string(file))
+    elif file_format == 'pdf':
+        content = re_format_text(convert_pdf_to_string(file))
+    elif file_format == 'xml':
+        content = re_format_text(convert_xml_to_string(file))
+    elif file_format == 'html':
+        content = re_format_text(convert_html_to_string(file))
+    elif file_format == 'unsupported':
+        raise
+    else:
+        print 'not a file'
+        raise
+    return content
+    
+        
+        
 def generate_file_for_comparision(file):
     file_format = judge_file_format(file)
     print file_format
