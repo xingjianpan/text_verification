@@ -112,6 +112,43 @@ def remove_extra_blank_lines(text):
     list = [line for line in text.split('\n') if line.strip() != '']
     return '\n'.join(list)
 
+
+def find_between(s, first, last=None):
+    try:
+        start = s.index(first)
+        if last is None:
+            end = len(s)
+        else:
+            end = s.index(last,start) + len(last)
+        return s[start:end]
+    except ValueError:
+        return""
+
+
+
+def re_format_input_text(text):
+    s1 = replace_line_breaks_with_space(text)
+    s2 = replace_tabs_with_space(s1)
+    s3 = remove_all_space_within_sentence(s2)
+    return s3
+    
+
+def read_start_end_points(file):
+    try:
+        content = open(file, 'U').readlines()
+    except:
+        raise 
+    start_end_list = []
+    for i in range(len(content)):
+       start,end = input[i].split(":")
+       start_end_list.append([re_format_input_text(start),re_format_input_text(end)])
+    return start_end_list
+
+
+    
+
+
+    
 def re_format_text(text):
     s1 = replace_line_breaks_with_space(text)
     s2 = replace_tabs_with_space(s1)
@@ -133,18 +170,6 @@ def write_string_to_file(string, filename):
             print 'Done'
         except:
             print 'cannot write to file'
-
-
-def find_between(s, first, last=None):
-    try:
-        start = s.index(first)
-        if last is None:
-            end = len(s)
-        else:
-            end = s.index(last,start) + len(last)
-        return s[start:end]
-    except ValueError:
-        return""
 
 #TODO test
 def judge_file_format(file):
@@ -189,16 +214,15 @@ def generate_file_for_comparision(file):
 
 def generate_comparasion_report(fromfile, tofile):
     import difflib
-    import time
     lines = 5
-
-    #fromdate = time.ctime(os.stat(fromfile).st_mtime)
-    #todate = time.ctime(os.stat(tofile).st_mtime)
     fromlines = open(fromfile, 'U').readlines()
     tolines = open(tofile, 'U').readlines()
     diff = difflib.HtmlDiff().make_file(fromlines, tolines, fromfile,
                                         tofile, numlines = lines)
     sys.stdout.writelines(diff)
+
+
+
 
 
 #TODO TEST
@@ -209,16 +233,13 @@ def perform_comparision(file1, file2):
 
 if __name__ == '__main__':
     import sys, os
-    for each in sys.argv:
-        print each
-    #if len(sys.argv) <> 3:
-    #    print 'Need two files for comparision.'
-    #    sys.exit()
-    #else:
-    #    perform_comparision(sys.argv[1],sys.argv[2])
-    file1 = os.path.abspath(sys.argv[1])
-    file2 = os.path.abspath(sys.argv[2])
-    perform_comparision(file1, file2)
+    if len(sys.argv) <> 3:
+        print 'Need two files for comparision.'
+        sys.exit()
+    else:
+        file1 = os.path.abspath(sys.argv[1])
+        file2 = os.path.abspath(sys.argv[2])
+        perform_comparision(file1, file2)
 
 
 
