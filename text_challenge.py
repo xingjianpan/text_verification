@@ -212,23 +212,35 @@ def generate_file_content(file):
     
         
         
-def generate_file_for_comparision(file):
+def generate_file_for_comparision(file, config_file=None):
     file_format = judge_file_format(file)
-    print file_format
+    #print file_format
     if file_format == 'txt':
-        content = re_format_text(convert_txt_to_string(file))
+        if not config_file:
+            content = re_format_text(convert_txt_to_string(file))
+        else:
+            content = re_structure_text(file,config_file )
         write_string_to_file(content ,'COMPARE_txt_file.txt')
         return 'COMPARE_html_file.txt'
     elif file_format == 'pdf':
-        content = re_format_text(convert_pdf_to_string(file))
+        if not config_file:
+            content = re_format_text(convert_pdf_to_string(file))
+        else:
+            content = re_structure_text(file,config_file )
         write_string_to_file(content,'COMPARE_pdf_file.txt')
         return 'COMPARE_PDF_file.txt'
     elif file_format == 'xml':
-        content = re_format_text(convert_xml_to_string(file))
+        if not config_file:
+            content = re_format_text(convert_xml_to_string(file))
+        else:
+            content = re_structure_text(file,config_file )
         write_string_to_file(content,'COMPARE_xml_file.txt')
         return 'COMPARE_xml_file.txt'
     elif file_format == 'html':
-        content = re_format_text(convert_html_to_string(file))
+        if not config_file:
+            content = re_format_text(convert_html_to_string(file))
+        else:
+            content = re_structure_text(file,config_file )
         write_string_to_file(content,'COMPARE_html_file.txt')
         return 'COMPARE_html_file.txt'
     elif file_format == 'unsupported':
@@ -252,21 +264,25 @@ def generate_comparasion_report(fromfile, tofile):
 
 
 #TODO TEST
-def perform_comparision(file1, file2):
-    file1 = generate_file_for_comparision(file1)
-    file2 = generate_file_for_comparision(file2)
+def perform_comparision(file1, file2, config_file=None):
+    file1 = generate_file_for_comparision(file1, config_file=None)
+    file2 = generate_file_for_comparision(file2, config_file=None)
     generate_comparasion_report(file1, file2)
+
 
 if __name__ == '__main__':
     import sys, os
-    if len(sys.argv) <> 3:
-        print 'Need two files for comparision.'
-        sys.exit()
-    else:
+    if len(sys.argv) = 3:
         file1 = os.path.abspath(sys.argv[1])
         file2 = os.path.abspath(sys.argv[2])
         perform_comparision(file1, file2)
-
+    if len(sys.argv) = 4:
+        file1 = os.path.abspath(sys.argv[1])
+        file2 = os.path.abspath(sys.argv[2])
+        config_file = os.path.abspath(sys.argv[3])
+        perform_comparision(file1, file2, config_file )        
+    else:
+        sys.exit(1)
 
 
 
