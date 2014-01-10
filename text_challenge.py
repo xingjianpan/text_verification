@@ -136,11 +136,12 @@ def re_format_input_text(text):
 def read_start_end_points(file):
     try:
         content = open(file, 'U').readlines()
+        print content
     except:
         raise 
     start_end_list = []
     for i in range(len(content)):
-       start,end = input[i].split(":")
+       start,end = content[i].split(":")
        start_end_list.append([re_format_input_text(start),re_format_input_text(end)])
     return start_end_list
 
@@ -213,6 +214,7 @@ def generate_file_content(file):
         
         
 def generate_file_for_comparision(file, config_file=None):
+    print 'got %s ' % config_file
     file_format = judge_file_format(file)
     #print file_format
     if file_format == 'txt':
@@ -224,6 +226,7 @@ def generate_file_for_comparision(file, config_file=None):
         return 'COMPARE_html_file.txt'
     elif file_format == 'pdf':
         if not config_file:
+            print 'no config file found'
             content = re_format_text(convert_pdf_to_string(file))
         else:
             content = re_structure_text(file,config_file )
@@ -265,24 +268,28 @@ def generate_comparasion_report(fromfile, tofile):
 
 #TODO TEST
 def perform_comparision(file1, file2, config_file=None):
-    file1 = generate_file_for_comparision(file1, config_file=None)
-    file2 = generate_file_for_comparision(file2, config_file=None)
+    file1 = generate_file_for_comparision(file1, config_file)
+    file2 = generate_file_for_comparision(file2, config_file)
     generate_comparasion_report(file1, file2)
 
 
 if __name__ == '__main__':
     import sys, os
-    if len(sys.argv) = 3:
-        file1 = os.path.abspath(sys.argv[1])
-        file2 = os.path.abspath(sys.argv[2])
-        perform_comparision(file1, file2)
-    if len(sys.argv) = 4:
-        file1 = os.path.abspath(sys.argv[1])
-        file2 = os.path.abspath(sys.argv[2])
-        config_file = os.path.abspath(sys.argv[3])
-        perform_comparision(file1, file2, config_file )        
-    else:
+    if len(sys.argv) < 3:
         sys.exit(1)
+    else:
+        file1 = os.path.abspath(sys.argv[1])
+        file2 = os.path.abspath(sys.argv[2])
+        try:
+            config_file = os.path.abspath(sys.argv[3])
+        except:
+            config_file is None
+            #print 'no config file found'
+        print sys.argv
+        print 'hahaha'
+        print config_file
+        perform_comparision(file1, file2, config_file=config_file )        
+
 
 
 
