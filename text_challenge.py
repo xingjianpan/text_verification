@@ -5,6 +5,8 @@
 #FIXME: when reading pdf, it reads vertically, when reading html, it reads horitionally.
 #this is causing a lot of trouble when there are tables in pdf/html
 #i think the probelm is within pdfminer, it break the order. need to fix it.
+#FIXME: some xml includes metadata for xml. need to get rid of them before comparision.
+
 
 #TODO test
 def convert_txt_to_string(txt_file):
@@ -31,7 +33,7 @@ def convert_pdf_to_string(pdf_file):
         return unicode_out
     except:
         return out
-        
+
 def convert_xml_to_string(xml_file):
     """
     input:xml file
@@ -43,7 +45,7 @@ def convert_xml_to_string(xml_file):
     content = root.xpath('//text()')
     res = ''.join(content)
     return res
-    
+
 
 def convert_html_to_string(html_file):
     """
