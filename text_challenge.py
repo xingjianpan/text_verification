@@ -5,7 +5,22 @@
 #FIXME: when reading pdf, it reads vertically, when reading html, it reads horitionally.
 #this is causing a lot of trouble when there are tables in pdf/html
 #i think the probelm is within pdfminer, it break the order. need to fix it.
-#FIXME: some xml includes metadata for xml. need to get rid of them before comparision.
+
+
+ignored_ns =[
+    '{urn:schemas-microsoft-com:office:office}Author',
+    '{urn:schemas-microsoft-com:office:office}LastAuthor',
+    '{urn:schemas-microsoft-com:office:office}Revision',
+    '{urn:schemas-microsoft-com:office:office}TotalTime',
+    '{urn:schemas-microsoft-com:office:office}Created',
+    '{urn:schemas-microsoft-com:office:office}LastSaved',
+    '{urn:schemas-microsoft-com:office:office}Pages',
+    '{urn:schemas-microsoft-com:office:office}Words',
+    '{urn:schemas-microsoft-com:office:office}Characters',
+    '{urn:schemas-microsoft-com:office:office}Paragraphs',
+    '{urn:schemas-microsoft-com:office:office}Editor',
+    '{urn:schemas-microsoft-com:office:office}CustomDocumentProperties'
+]
 
 
 #TODO test
@@ -42,8 +57,15 @@ def convert_xml_to_string(xml_file):
     from lxml import etree
     tree = etree.parse(xml_file)
     root = tree.getroot()
-    content = root.xpath('//text()')
-    res = ''.join(content)
+    all_content = root.xpath('//text()')
+    body_content = []
+    #filter out text content belong to certain name spaces.
+    for item in all_content:
+        if item.getparent().tag in ignored_ns:
+            continue
+        else:
+            body_content.append(item)
+    res = ''.join(body_content)
     return res
 
 
