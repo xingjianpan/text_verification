@@ -37,12 +37,8 @@ def convert_pdf_to_string(pdf_file):
     format:same as pdf file
     """
     import subprocess
-    #s=subprocess.Popen('pdf2txt.py S1-Source.pdf',stdout=subprocess.PIPE,shell=True)
-    #s=subprocess.Popen(['pdf2txt.py', 'S1-Source.pdf'],stdout=subprocess.PIPE
     s=subprocess.Popen(['pdf2txt.py', pdf_file],stdout=subprocess.PIPE)
     out, err = s.communicate()
-    #res = ''.join(out.split("\r\n")) #remove "\r\n"
-    #res2 = ''.join(out.split("\n"))  #remove "\n"
     try:
         unicode_out = out.decode('utf8')
         return unicode_out
@@ -76,12 +72,6 @@ def convert_html_to_string(html_file):
     """
     from lxml.html import parse
     page=parse(html_file).getroot()
-    #content_list = page.xpath("/html/body/text()")
-    #text_list = []
-    #for element in page.iter():
-    #    if element.text is not None:
-    #        text_list.append(element.text)
-    #res = ''.join(content_list)
     res = page.body.text_content()
     return res
 
@@ -114,9 +104,6 @@ def splitParagraphIntoSentences(paragraph):
         these signs, this program will not work
         '''
     import re
-    # to split by multile characters
-
-    #   regular expressions are easiest (and fastest)
     sentenceEnders = re.compile('[,.!?]') #add comma
     sentenceList = sentenceEnders.split(paragraph)
     return '\n'.join(sentenceList)
@@ -147,13 +134,6 @@ def write_string_to_file(string, filename):
         except:
             print 'cannot write to file'
 
-def cut_it(text, mark):
-    pos = text.find(mark)
-    if pos>0:
-        text = text[pos:]
-    else:
-        text = text
-    return text
 
 def find_between(s, first, last=None):
     try:
