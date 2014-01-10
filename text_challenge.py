@@ -131,14 +131,14 @@ def re_format_input_text(text):
     s2 = replace_tabs_with_space(s1)
     s3 = remove_all_space_within_sentence(s2)
     return s3
-    
+
 
 def read_start_end_points(file):
     try:
         content = open(file, 'U').readlines()
         print content
     except:
-        raise 
+        raise
     start_end_list = []
     for i in range(len(content)):
        start,end = content[i].split(":")
@@ -152,9 +152,9 @@ def re_structure_text(file, config_file):
     new_content = []
     for i in range(len(start_end_list)):
         new_content.append(find_between(content, start_end_list[i][0], start_end_list[i][1]))
-    return ''.join(new_content)
-    
-    
+    return '\n'.join(new_content)
+
+
 def re_format_text(text):
     s1 = replace_line_breaks_with_space(text)
     s2 = replace_tabs_with_space(s1)
@@ -210,9 +210,9 @@ def generate_file_content(file):
         print 'not a file'
         raise
     return content
-    
-        
-        
+
+
+
 def generate_file_for_comparision(file, config_file=None):
     print 'got %s ' % config_file
     file_format = judge_file_format(file)
@@ -288,7 +288,7 @@ if __name__ == '__main__':
         print sys.argv
         print 'hahaha'
         print config_file
-        perform_comparision(file1, file2, config_file=config_file )        
+        perform_comparision(file1, file2, config_file=config_file )
 
 
 
