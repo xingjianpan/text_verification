@@ -23,4 +23,7 @@ setup(
         "lxml ==3.2.5",
         "pdfminer==20131113",
             ],
+    scripts=[
+        'tools/text_verification.py',
+        ],
                      )
