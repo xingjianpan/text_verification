@@ -255,6 +255,7 @@ def generate_file_for_comparision(file, config_file=None):
 
 
 def generate_comparasion_report(fromfile, tofile):
+    import sys
     import difflib
     lines = 5
     print 'got from file %r, to file %r' % (fromfile, tofile)
