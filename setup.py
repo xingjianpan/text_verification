@@ -21,6 +21,6 @@ setup(
     classifiers=["Environment :: Console"],
     install_requires=[
         "lxml ==3.2.5",
-        "pdfminder==20131113",
+        "pdfminer==20131113",
             ],
                      )
