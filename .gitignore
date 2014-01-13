@@ -1,4 +1,6 @@
-# Byte-compiled / optimized / DLL files
+# Challenge documents
+Challenge/
+## Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 
