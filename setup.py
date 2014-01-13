@@ -16,7 +16,7 @@ setup(
     description = ("The tool compare documents in different format",
                    "and report the difference in HTML format."),
     keywords = "source comparision pdf xml source html",
-    packages = ['text_verification_challenge','tests'],
+    packages = ['text_verification_challenge'],
     license='',
     long_description=read('README'),
     classifiers=["Environment :: Console"],
