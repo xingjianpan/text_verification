@@ -173,7 +173,7 @@ def write_string_to_file(string, filename):
         try:
             #f.write(string.encode('utf8'))
             f.write(string)
-            print 'Done'
+            #print 'Done'
         except:
             print 'cannot write to file'
 
@@ -214,7 +214,8 @@ def generate_file_content(file):
 
 
 def generate_file_for_comparision(file, config_file=None):
-    print 'got %s ' % config_file
+    import os
+    print 'got config file %s ' % config_file
     file_format = judge_file_format(file)
     #print file_format
     if file_format == 'txt':
@@ -222,30 +223,30 @@ def generate_file_for_comparision(file, config_file=None):
             content = re_format_text(convert_txt_to_string(file))
         else:
             content = re_structure_text(file,config_file )
-        write_string_to_file(content ,'COMPARE_txt_file.txt')
-        return 'COMPARE_html_file.txt'
+        write_string_to_file(content ,'COMPARE_txt_file_%s.txt' % os.path.basename(file))
+        return 'COMPARE_txt_file_%s.txt' % os.path.basename(file)
     elif file_format == 'pdf':
         if not config_file:
             print 'no config file found'
             content = re_format_text(convert_pdf_to_string(file))
         else:
             content = re_structure_text(file,config_file )
-        write_string_to_file(content,'COMPARE_pdf_file.txt')
-        return 'COMPARE_PDF_file.txt'
+        write_string_to_file(content,'COMPARE_pdf_file_%s.txt' %  os.path.basename(file))
+        return 'COMPARE_PDF_file_%s.txt' % os.path.basename(file)
     elif file_format == 'xml':
         if not config_file:
             content = re_format_text(convert_xml_to_string(file))
         else:
             content = re_structure_text(file,config_file )
-        write_string_to_file(content,'COMPARE_xml_file.txt')
-        return 'COMPARE_xml_file.txt'
+        write_string_to_file(content,'COMPARE_xml_file_%s.txt' % os.path.basename(file))
+        return 'COMPARE_xml_file_%s.txt' % os.path.basename(file)
     elif file_format == 'html':
         if not config_file:
             content = re_format_text(convert_html_to_string(file))
         else:
             content = re_structure_text(file,config_file )
-        write_string_to_file(content,'COMPARE_html_file.txt')
-        return 'COMPARE_html_file.txt'
+        write_string_to_file(content,'COMPARE_html_file_%s.txt' % os.path.basename(file))
+        return 'COMPARE_html_file_%s.txt' % os.path.basename(file)
     elif file_format == 'unsupported':
         print 'unsupported file format'
         raise
@@ -256,6 +257,7 @@ def generate_file_for_comparision(file, config_file=None):
 def generate_comparasion_report(fromfile, tofile):
     import difflib
     lines = 5
+    print 'got from file %r, to file %r' % (fromfile, tofile)
     fromlines = open(fromfile, 'U').readlines()
     tolines = open(tofile, 'U').readlines()
     diff = difflib.HtmlDiff().make_file(fromlines, tolines, fromfile,
@@ -283,11 +285,10 @@ if __name__ == '__main__':
         try:
             config_file = os.path.abspath(sys.argv[3])
         except:
-            config_file is None
+            config_file = None
             #print 'no config file found'
         print sys.argv
-        print 'hahaha'
-        print config_file
+        #print config_file
         perform_comparision(file1, file2, config_file=config_file )
 
 
